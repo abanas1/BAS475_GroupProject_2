@@ -32,6 +32,10 @@ ui <- fluidPage(
                                         ), 
                         selected = "American Airlines"),
             
+            dateRangeInput("dates", "Date Range of Stocks", start = ("2020-01-01"), end = ("2020-12-31"), min = NULL,
+                     max = NULL, format = "yyyy-mm-dd", startview = "month", weekstart = 0,
+                     language = "en", separator = " to ", width = NULL),
+ 
             h3(textOutput("summaryLabel1")),
             h4(paste("Maximum Closing Amount:")),
             h4(textOutput("Max"), style = "color:blue"),
