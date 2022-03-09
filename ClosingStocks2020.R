@@ -8,7 +8,6 @@
 #
 
 library(shiny)
-
 library(quantmod)
 library(plotly)
 library(fpp3)
@@ -25,7 +24,7 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
             selectInput("selectCompany", label = h3("Select a Company:"), 
-                        choices = list("American Airlines" = "American Airlines", "Amazon" = "Amazon", "Disney" = "Disney",
+                        choices = list("American Airlines" = "American Airlines", "Amazon" = "Amazon", "Apple" = "Apple", "Disney" = "Disney",
                                        "Exxon Mobil" = "Exxon Mobil", "General Motors" = "General Motors",  
                                        "Home Depot" = "Home Depot","Lululemon" = "Lululemon","McDonald's" = "McDonald's", 
                                        "Starbucks" = "Starbucks", "Spotify" = "Spotify", "Tesla" = "Tesla","Zoom" = "Zoom"
@@ -51,7 +50,8 @@ ui <- fluidPage(
 
         mainPanel(
            plotlyOutput("STOCKPlot"),
-           plotlyOutput("STOCKDiffPlot")
+           plotlyOutput("STOCKDiffPlot"),
+           plotlyOutput("STOCKReturn")
         )
     )
 )
@@ -64,6 +64,7 @@ server <- function(input, output) {
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -85,6 +86,7 @@ server <- function(input, output) {
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -102,10 +104,32 @@ server <- function(input, output) {
         
     })
     
+    output$STOCKReturn <- renderPlotly({
+      
+       if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
+       if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+       if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
+       if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
+       if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
+       if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
+       if(input$selectCompany == "Home Depot"){ x <- STOCK.HD }
+       if(input$selectCompany == "Lululemon"){ x <- STOCK.LULU }
+       if(input$selectCompany == "McDonald's"){ x <- STOCK.MCD }
+       if(input$selectCompany == "Starbucks"){ x <- STOCK.SBUX }
+       if(input$selectCompany == "Spotify"){ x <- STOCK.SPOT }
+       if(input$selectCompany == "Tesla"){ x <- STOCK.TSLA }
+       if(input$selectCompany == "Zoom"){ x <- STOCK.ZM }
+      
+      monthlyReturn(x) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Monthly Returns in 2020:" ),
+                                           x = "Date")+easy_center_title()
+    
+    })
+    
     output$Max <- renderPrint({
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -124,6 +148,7 @@ server <- function(input, output) {
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -142,6 +167,7 @@ server <- function(input, output) {
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -161,6 +187,7 @@ server <- function(input, output) {
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -180,6 +207,7 @@ server <- function(input, output) {
         
         if(input$selectCompany == "American Airlines"){ x <- STOCK.AAL }
         if(input$selectCompany == "Amazon"){ x <- STOCK.AMZN }
+        if(input$selectCompany == "Apple"){ x <- STOCK.AAPL }
         if(input$selectCompany == "Disney"){ x <- STOCK.DIS }
         if(input$selectCompany == "Exxon Mobil"){ x <- STOCK.XOM }
         if(input$selectCompany == "General Motors"){ x <- STOCK.GM }
@@ -214,6 +242,9 @@ server <- function(input, output) {
     STOCK.AMZN <- getSymbols("AMZN", src = "yahoo", 
                              from = start, to = end, auto.assign = FALSE)
     STOCK.AMZN <- STOCK.AMZN[,4]
+    STOCK.AAPL <- getSymbols("AAPL", src = "yahoo", 
+                             from = start, to = end, auto.assign = FALSE)
+    STOCK.AAPL <- STOCK.AAPL[,4]
     STOCK.MCD <- getSymbols("MCD", src = "yahoo", 
                             from = start, to = end, auto.assign = FALSE)
     STOCK.MCD <- STOCK.MCD[,4]
@@ -249,3 +280,4 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
