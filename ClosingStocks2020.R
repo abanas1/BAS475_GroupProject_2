@@ -14,6 +14,8 @@ library(fpp3)
 library(ggpubr)
 library(ggplot2)
 library(ggeasy)
+library(tidyquant)
+library(ggthemes)
 
 
 
@@ -124,7 +126,7 @@ server <- function(input, output) {
 
    
    newdata() %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Closing Prices in 2020:" ),
-                         x = "Date")+easy_center_title()
+                         x = "Date")+easy_center_title()+theme_economist_white()
    
    
  })
@@ -133,13 +135,13 @@ server <- function(input, output) {
    
    
    diff(newdata()) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Closing Prices Differences in 2020:" ),
-                               x = "Date")+easy_center_title()
+                               x = "Date")+easy_center_title()+theme_economist_white()
    
  })
  output$STOCKReturn <- renderPlotly({
 
    monthlyReturn(newdata()) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Monthly Returns in 2020:" ),
-                                        x = "Date")+easy_center_title()
+                                        x = "Date")+easy_center_title()+theme_economist_white()
    
  })
  
