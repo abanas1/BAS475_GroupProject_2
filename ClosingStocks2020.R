@@ -16,12 +16,13 @@ library(ggplot2)
 library(ggeasy)
 library(tidyquant)
 library(ggthemes)
+library(shinythemes)
 
 
 
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("slate"),
   
-  h2(titlePanel("Major Companies Closing Stock Prices During COVID-19 (2020)")),
+  h2(titlePanel("Major Companies Stocks During COVID-19 (2020)")),
   
   sidebarLayout(
     sidebarPanel(
@@ -37,15 +38,15 @@ ui <- fluidPage(
       dateInput("date2", "To", value="2020-05-31"),
       h3(textOutput("summaryLabel1")),
       h4(paste("Maximum Closing Amount:")),
-      h4(textOutput("Max"), style = "color:blue"),
+      h4(textOutput("Max"), style = "color:white"),
       h4(paste("Minimum Closing Amount:")),
-      h4(textOutput("Min"), style = "color:blue"),
+      h4(textOutput("Min"), style = "color:white"),
       h4(paste("Maximum Difference in Closing Prices:")),
-      h4(textOutput("DiffMax"), style = "color:blue"),
+      h4(textOutput("DiffMax"), style = "color:white"),
       h4(paste("Minimum Difference in Closing Prices:")),
-      h4(textOutput("DiffMin"), style = "color:blue"),
+      h4(textOutput("DiffMin"), style = "color:white"),
       h4(paste("Average Difference in Closing Prices:")),
-      h4(textOutput("DiffMean"), style = "color:blue")
+      h4(textOutput("DiffMean"), style = "color:white")
     ),
     
     mainPanel(
@@ -125,8 +126,8 @@ server <- function(input, output) {
    
 
    
-   newdata() %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Closing Prices in 2020:" ),
-                         x = "Date")+easy_center_title()+theme_economist_white()
+   newdata() %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Closing Prices:" ),
+                        y = "Closing Price", x = "Date")+easy_center_title()+theme_economist_white()
    
    
  })
@@ -134,14 +135,14 @@ server <- function(input, output) {
 
    
    
-   diff(newdata()) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Closing Prices Differences in 2020:" ),
-                               x = "Date")+easy_center_title()+theme_economist_white()
+   diff(newdata()) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Closing Prices Difference:" ),
+                              y = "Closing Price Difference", x = "Date")+easy_center_title()+theme_economist_white()
    
  })
  output$STOCKReturn <- renderPlotly({
 
-   monthlyReturn(newdata()) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Monthly Returns in 2020:" ),
-                                        x = "Date")+easy_center_title()+theme_economist_white()
+   monthlyReturn(newdata()) %>% autoplot()+labs(title = paste("Plot of", input$selectCompany , "Monthly Returns:" ),
+                                       y = "Return", x = "Date")+easy_center_title()+theme_economist_white()
    
  })
  
